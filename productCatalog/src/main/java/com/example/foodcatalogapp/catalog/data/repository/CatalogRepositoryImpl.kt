@@ -20,7 +20,7 @@ class CatalogRepositoryImpl(
         (catalogService.getCategories() as? ResultState.Success)?.body?.let { categories ->
             catalogDao.insertCategories(categories.toCategoryEntities())
         }
-        catalogDao.getCategories().let { categories ->
+        return catalogDao.getCategories().let { categories ->
             if (categories.isNotEmpty()) {
                 ResultState.Success(categories.toCategoryDomainModels())
             } else {
@@ -33,7 +33,7 @@ class CatalogRepositoryImpl(
         (catalogService.getProducts() as? ResultState.Success)?.body?.let { products ->
             catalogDao.insertProducts(products.toProductEntities())
         }
-        catalogDao.getProducts().let { products ->
+        return catalogDao.getProducts().let { products ->
             if (products.isNotEmpty()) {
                 ResultState.Success(products.toProductDomainModels())
             } else {
