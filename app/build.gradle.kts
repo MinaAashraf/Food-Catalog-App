@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.foodcatalogapp"
+    namespace = "com.example.catalog"
     compileSdk {
         version = release(36)
     }
@@ -42,6 +42,10 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":productCatalog"))
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
