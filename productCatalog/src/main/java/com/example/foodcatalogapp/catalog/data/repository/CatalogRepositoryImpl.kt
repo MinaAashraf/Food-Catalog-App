@@ -43,7 +43,7 @@ class CatalogRepositoryImpl(
     }
 
     override suspend fun filterProductsByName(productName: String): ResultState<List<ProductModel>> {
-        return catalogDao.getProductByName(productName).let { products ->
+        return catalogDao.getProductByName("%${productName}%").let { products ->
             if (products.isNotEmpty()) {
                 ResultState.Success(products.toProductDomainModels())
             } else {

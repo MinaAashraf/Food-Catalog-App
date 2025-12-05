@@ -1,5 +1,6 @@
 package com.example.foodcatalogapp.catalog.data.api
 
+import android.util.Log
 import com.example.catalog.core.common.ErrorCatalog
 import com.example.catalog.core.common.ResultState
 import com.example.foodcatalogapp.catalog.data.model.ProductCategoryDTO
@@ -16,23 +17,28 @@ class CatalogServiceImpl(
 ) : CatalogService {
     override suspend fun getCategories(): ResultState<List<ProductCategoryDTO>> {
         return try {
-            client.get(categoriesResource).body()
-        } catch (_: Exception) {
+            Log.d("catalogRequest:", (client.get(categoriesResource).body() as List<ProductCategoryDTO>).toString())
+            ResultState.Success(client.get(categoriesResource).body())
+        } catch (e: Exception) {
+            Log.d("catalogRequest:", e.toString())
             ResultState.Error(ErrorCatalog.NetworkError)
         }
     }
 
     override suspend fun getProducts(): ResultState<List<ProductDTO>> {
         return try {
-            client.get(productsResource).body()
-        } catch (_: Exception) {
+            Log.d("productRequest:", (client.get(categoriesResource).body() as List<ProductCategoryDTO>).toString())
+
+            ResultState.Success(client.get(productsResource).body())
+        } catch (e: Exception) {
+            Log.d("productRequest:", e.toString())
             ResultState.Error(ErrorCatalog.NetworkError)
         }
     }
 }
 
-@Resource("/Categories")
-class Categories
+@Resource("/categories.json")
+class Categories()
 
-@Resource("/Products")
+@Resource("/products.json")
 class Products

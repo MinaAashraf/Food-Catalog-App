@@ -21,6 +21,6 @@ interface CatalogDAO {
     @Query("SELECT * FROM products")
     fun getProducts(): List<ProductEntity>
 
-    @Query("SELECT * FROM products WHERE name like :name")
+    @Query("SELECT * FROM products WHERE lower(name) like lower(:name)")
     fun getProductByName(name: String): List<ProductEntity>
 }

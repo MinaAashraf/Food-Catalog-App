@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_products_label">Search for products</string>
+    <string name="no_data_found_error">No Products Available!</string>
+    <string name="generic_error">Ops, Try again later</string>
+    <string name="unit">EGP</string>
+    <string name="loading_text">Loading..</string>
+    <string name="view_order_text">View order</string>
+</resources>

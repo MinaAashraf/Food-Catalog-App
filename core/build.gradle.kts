@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    id ("kotlinx-serialization")
 }
 
 android {
@@ -41,6 +42,7 @@ android {
 
 dependencies {
     implementation(libs.bundles.room)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
     ksp(libs.room.compiler)
     api(platform(libs.koin.bom))
     api(libs.bundles.koin)
