@@ -65,7 +65,7 @@ fun ProductCatalogScreen() {
     Column(modifier = Modifier.imePadding()) {
         SearchBar(
             modifier = Modifier.padding(16.dp),
-            searchQuery = catalogUiState.searchQuery,
+            searchQuery = catalogUiState.searchQuery.orEmpty(),
             onQueryChange = {
                 viewModel.onEvent(
                     CatalogUiEvent.OnSearchQuery(it)
@@ -123,21 +123,23 @@ private fun ProductCatalogContent(
                 )
             }
         )
-        ProductsLazyGrid(
-            modifier = Modifier
-                .weight(1f)
-                .background(Color.LightGray),
-            products = catalogs[catalogState.selectedTabIndex].products,
-            selectedTabIndex = catalogState.selectedTabIndex,
-            onProductClick = { productId, productPrice ->
-                onEvent(
-                    CatalogUiEvent.OnProductClick(
-                        productId = productId,
-                        productPrice = productPrice
+        if (catalogs.isNotEmpty()) {
+            ProductsLazyGrid(
+                modifier = Modifier
+                    .weight(1f)
+                    .background(Color.LightGray),
+                products = catalogs[catalogState.selectedTabIndex].products,
+                selectedTabIndex = catalogState.selectedTabIndex,
+                onProductClick = { productId, productPrice ->
+                    onEvent(
+                        CatalogUiEvent.OnProductClick(
+                            productId = productId,
+                            productPrice = productPrice
+                        )
                     )
-                )
-            }
-        )
+                }
+            )
+        }
         Button(
             modifier = Modifier
                 .padding(16.dp)

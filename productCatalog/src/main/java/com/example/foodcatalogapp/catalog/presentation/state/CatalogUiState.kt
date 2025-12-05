@@ -4,7 +4,7 @@ import com.example.foodcatalogapp.catalog.presentation.model.CatalogPresentation
 
 data class CatalogUiState(
     val catalogResult: CatalogResult = CatalogResult.Loading,
-    val searchQuery: String = "",
+    val searchQuery: String? = null,
     val selectedTabIndex: Int = 0
 )
 

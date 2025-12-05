@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -85,11 +86,14 @@ class CatalogViewModel(
     private fun searchProductByName(productName: String) {
         viewModelScope.launch {
             filterProductsByNameUseCase(productName).onSuccess { catalogs ->
-                updateCatalogResult(
-                    CatalogResult.CatalogSuccess(
-                        catalogs.toCatalogPresentationModel()
+                _catalogUiState.update {
+                    it.copy(
+                        catalogResult = CatalogResult.CatalogSuccess(
+                            catalogs.toCatalogPresentationModel()
+                        ),
+                        selectedTabIndex = 0
                     )
-                )
+                }
             }.onError { error ->
                 updateCatalogResult(
                     CatalogResult.Error(getErrorMessage(error))
@@ -101,7 +105,7 @@ class CatalogViewModel(
     private fun observeSearchQuery() {
         viewModelScope.launch {
             _catalogUiState
-                .map { it.searchQuery }
+                .mapNotNull { it.searchQuery }
                 .debounce(500L)
                 .distinctUntilChanged()
                 .collectLatest { query ->
