@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Food Catalog App"
 include(":app")
- 
+include(":core")
+include(":productCatalog")
