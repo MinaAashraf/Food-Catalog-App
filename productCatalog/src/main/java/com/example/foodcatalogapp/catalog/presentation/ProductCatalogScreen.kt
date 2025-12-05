@@ -61,7 +61,7 @@ fun ProductCatalogScreen() {
     val viewModel: CatalogViewModel = koinViewModel()
     val catalogUiState by viewModel.catalogUiState.collectAsStateWithLifecycle()
     val cartDetails by viewModel.cartDetailsState.collectAsStateWithLifecycle()
-    
+
     Column(modifier = Modifier.imePadding()) {
         SearchBar(
             modifier = Modifier.padding(16.dp),
@@ -146,11 +146,9 @@ private fun ProductCatalogContent(
                 .height(48.dp),
             shape = RoundedCornerShape(6.dp),
             onClick = {
-
+                onEvent(CatalogUiEvent.OnCartButtonClick)
             }
-        ) {
-            CartDetailsRow(cartDetails)
-        }
+        ) { CartDetailsRow(cartDetails) }
     }
 }
 
