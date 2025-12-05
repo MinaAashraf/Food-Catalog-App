@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class GetCatalogUseCase(
+class GetCatalogsUseCase(
     private val repository: CatalogRepository,
     private val dispatcher: CoroutineDispatcher
 ) {
@@ -26,7 +26,13 @@ class GetCatalogUseCase(
                     val productsByCategory = productsResult.body.groupBy { it.categoryId }
                     categories.mapNotNull { category ->
                         productsByCategory[category.id]
-                            ?.let { CatalogModel(category, it) }
+                            ?.let { categoryProducts ->
+                                CatalogModel(
+                                    categoryId = category.id,
+                                    categoryName = category.name,
+                                    products = categoryProducts
+                                )
+                            }
                     }
                 }
             } else {

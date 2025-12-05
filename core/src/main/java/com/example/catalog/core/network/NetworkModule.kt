@@ -4,6 +4,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.resources.Resources
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
@@ -24,9 +26,12 @@ val networkModule = module {
             install(DefaultRequest) {
                 url {
                     protocol = URLProtocol.HTTPS
-                    path("my.api.mockaroo.com/")
+                    host = "my.api.mockaroo.com/"
                     parameters.append("key", "c3f514e0")
                 }
+            }
+            install(Logging){
+                level = LogLevel.ALL
             }
         }
     }

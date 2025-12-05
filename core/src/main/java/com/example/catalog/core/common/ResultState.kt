@@ -1,7 +1,12 @@
 package com.example.catalog.core.common
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 sealed class ResultState<out T : Any> {
+    @Serializable
     data class Success<T : Any>(val body: T) : ResultState<T>()
+    @Serializable
     data class Error<T : Any>(val error: ErrorCatalog) : ResultState<T>()
 }
 

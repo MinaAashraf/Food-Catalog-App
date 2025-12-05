@@ -1,7 +1,8 @@
 package com.example.foodcatalogapp.catalog.domain.model
 
 data class CatalogModel(
-    val category: ProductCategoryModel? = null,
+    val categoryId: Int? = null,
+    val categoryName: String? = null,
     val products: List<ProductModel>? = null
 )
 
