@@ -22,3 +22,7 @@ A modern Android application for browsing, searching, and managing food product 
 - Koin (DI), Room (local DB), Ktor (network), DataStore (preferences)
 - Coroutines, Flow, Modular Architecture
 - Modular Gradle setup (KTS)
+
+## Screenshots
+
+<img src="https://github.com/user-attachments/assets/9d94ffcb-6fb1-40f4-a1ce-b1f388a2e730" alt="App Screenshot" width="300"/>
