@@ -2,7 +2,6 @@ package com.example.catalog.core.uicomponents.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,7 +21,7 @@ import com.example.catalog.core.uicomponents.theme.FoodCatalogAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToolBar(
+fun AppBar(
     modifier: Modifier = Modifier,
     title: String,
     showBackButton: Boolean = true,
@@ -31,7 +30,7 @@ fun ToolBar(
     CenterAlignedTopAppBar(
         modifier = modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(72.dp)
             .shadow(0.dp),
         title = { Text(title) },
         colors = TopAppBarDefaults.topAppBarColors().copy(
@@ -39,10 +38,7 @@ fun ToolBar(
         ),
         navigationIcon = {
             if (showBackButton) {
-                IconButton(
-                    modifier = Modifier.padding(8.dp),
-                    onClick = onBackClicked
-                ) {
+                IconButton(onClick = onBackClicked) {
                     Icon(
                         painter = painterResource(R.drawable.left_arrow_icon),
                         modifier = Modifier.size(36.dp),
@@ -56,9 +52,9 @@ fun ToolBar(
 
 @Preview
 @Composable
-private fun ToolBarPreview() {
+private fun AppBarPreview() {
     FoodCatalogAppTheme {
-        ToolBar(
+        AppBar(
             title = "Catalog"
         )
     }

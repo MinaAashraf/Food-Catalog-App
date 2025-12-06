@@ -35,6 +35,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+        freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
     }
     buildFeatures {
         compose = true
@@ -44,8 +45,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":productCatalog"))
-    implementation(platform(libs.koin.bom))
-    implementation(libs.koin.android)
+    implementation(libs.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)

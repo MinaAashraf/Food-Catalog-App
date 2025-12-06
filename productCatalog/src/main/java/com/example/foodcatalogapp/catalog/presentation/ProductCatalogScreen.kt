@@ -287,7 +287,7 @@ private fun ViewOrderButton(
 ) {
     Button(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
             .height(48.dp),
         shape = RoundedCornerShape(6.dp),
         onClick = onButtonClick
