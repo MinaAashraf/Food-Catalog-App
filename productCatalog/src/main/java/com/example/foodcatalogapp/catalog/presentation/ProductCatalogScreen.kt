@@ -397,3 +397,14 @@ private fun SearchBarPreview() {
         )
     }
 }
+
+@Preview
+@Composable
+private fun ViewOrderButtonPreview() {
+    FoodCatalogAppTheme {
+        ViewOrderButton(
+            cartDetails = CartDetailsPresentationModel(),
+            onButtonClick = {}
+        )
+    }
+}

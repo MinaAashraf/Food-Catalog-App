@@ -3,11 +3,14 @@ package com.example.catalog.core.uicomponents.composables
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -28,9 +31,12 @@ fun ToolBar(
     CenterAlignedTopAppBar(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)
-            .shadow(1.dp),
+            .height(80.dp)
+            .shadow(0.dp),
         title = { Text(title) },
+        colors = TopAppBarDefaults.topAppBarColors().copy(
+            containerColor = MaterialTheme.colorScheme.onPrimary
+        ),
         navigationIcon = {
             if (showBackButton) {
                 IconButton(
@@ -39,6 +45,7 @@ fun ToolBar(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.left_arrow_icon),
+                        modifier = Modifier.size(36.dp),
                         contentDescription = null
                     )
                 }
