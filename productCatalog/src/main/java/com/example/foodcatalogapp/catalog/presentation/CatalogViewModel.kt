@@ -162,8 +162,10 @@ class CatalogViewModel(
     }
 
     private fun clearCart() {
-        viewModelScope.launch {
-            clearCartUseCase
+        if (cartDetailsState.value.productIds.isNotEmpty()) {
+            viewModelScope.launch {
+                clearCartUseCase()
+            }
         }
     }
 

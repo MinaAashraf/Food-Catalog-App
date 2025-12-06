@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,14 +29,17 @@ import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -46,7 +48,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_EXPANDED_LOWER_BOUND
+import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import coil3.compose.AsyncImage
+import com.example.catalog.core.uicomponents.composables.ErrorScreen
+import com.example.catalog.core.uicomponents.composables.LoadingScreen
+import com.example.catalog.core.uicomponents.theme.FoodCatalogAppTheme
 import com.example.foodcatalogapp.catalog.R
 import com.example.foodcatalogapp.catalog.presentation.event.CatalogUiEvent
 import com.example.foodcatalogapp.catalog.presentation.model.CartDetailsPresentationModel
@@ -140,15 +147,13 @@ private fun ProductCatalogContent(
                 }
             )
         }
-        Button(
-            modifier = Modifier
-                .padding(16.dp)
-                .height(48.dp),
-            shape = RoundedCornerShape(6.dp),
-            onClick = {
+
+        ViewOrderButton(
+            cartDetails = cartDetails,
+            onButtonClick = {
                 onEvent(CatalogUiEvent.OnCartButtonClick)
             }
-        ) { CartDetailsRow(cartDetails) }
+        )
     }
 }
 
@@ -201,6 +206,7 @@ private fun ProductsLazyGrid(
     selectedTabIndex: Int,
     onProductClick: (Int, String) -> Unit
 ) {
+
     val gridState = rememberLazyGridState(
         initialFirstVisibleItemIndex = 0
     )
@@ -211,7 +217,7 @@ private fun ProductsLazyGrid(
     LazyVerticalGrid(
         modifier = modifier.fillMaxWidth(),
         state = gridState,
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(calculateAdaptiveGridColumnCount()),
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -233,6 +239,8 @@ private fun ProductElement(
     product: ProductPresentationModel,
     onProductClick: () -> Unit
 ) {
+    val screenHeight = LocalConfiguration.current.screenHeightDp
+
     ElevatedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
@@ -248,7 +256,7 @@ private fun ProductElement(
             AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp),
+                    .height((screenHeight * 0.15).dp),
                 model = product.image,
                 error = painterResource(R.drawable.place_holder),
                 contentScale = ContentScale.Crop,
@@ -256,8 +264,7 @@ private fun ProductElement(
                 contentDescription = null
             )
             Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(16.dp)
             ) {
                 Text(product.name)
                 product.description?.let {
@@ -267,10 +274,24 @@ private fun ProductElement(
                         maxLines = 1
                     )
                 }
-                Text("${product.price} ${stringResource(R.string.unit)}")
+                Text(text = "${product.price} ${stringResource(R.string.unit)}")
             }
         }
     }
+}
+
+@Composable
+private fun ViewOrderButton(
+    cartDetails: CartDetailsPresentationModel,
+    onButtonClick: () -> Unit
+) {
+    Button(
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .height(48.dp),
+        shape = RoundedCornerShape(6.dp),
+        onClick = onButtonClick
+    ) { CartDetailsRow(cartDetails) }
 }
 
 @Composable
@@ -314,35 +335,13 @@ private fun CartDetailsRow(cartDetails: CartDetailsPresentationModel) {
 }
 
 @Composable
-private fun ErrorScreen(message: String) {
-    Box(
-        Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) { Text(message) }
-}
-
-@Composable
-private fun LoadingScreen() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            CircularProgressIndicator(
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-            Text(
-                text = stringResource(R.string.loading_text),
-                style = TextStyle(
-                    color = MaterialTheme.colorScheme.secondary,
-                    fontWeight = FontWeight.Bold
-                )
-            )
+private fun calculateAdaptiveGridColumnCount(): Int {
+    val sizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    return remember(sizeClass) {
+        when {
+            (sizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_EXPANDED_LOWER_BOUND)) -> 6
+            (sizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) -> 4
+            else -> 2
         }
     }
 }
@@ -350,38 +349,62 @@ private fun LoadingScreen() {
 @Preview
 @Composable
 private fun ProductCatalogContentPreview() {
-    ProductCatalogContent(
-        catalogState = CatalogUiState(
-            CatalogResult.CatalogSuccess(
-                catalogs = listOf(
-                    CatalogPresentationModel(
-                        categoryId = 1,
-                        categoryName = "Breakfast",
-                        products = listOf(
-                            ProductPresentationModel(
-                                name = "BreakFast1",
-                                description = "Amazing BreakFast",
-                                price = "50.788",
-                                image = ""
-                            ),
-                            ProductPresentationModel(
-                                name = "BreakFast2",
-                                description = "Amazing BreakFast",
-                                price = "50.788",
-                                image = ""
-                            ),
-                            ProductPresentationModel(
-                                name = "BreakFast3",
-                                description = "Amazing BreakFast",
-                                price = "50.788",
-                                image = ""
+    FoodCatalogAppTheme {
+        ProductCatalogContent(
+            catalogState = CatalogUiState(
+                CatalogResult.CatalogSuccess(
+                    catalogs = listOf(
+                        CatalogPresentationModel(
+                            categoryId = 1,
+                            categoryName = "Breakfast",
+                            products = listOf(
+                                ProductPresentationModel(
+                                    name = "BreakFast1",
+                                    description = "Amazing BreakFast",
+                                    price = "50.788",
+                                    image = ""
+                                ),
+                                ProductPresentationModel(
+                                    name = "BreakFast2",
+                                    description = "Amazing BreakFast",
+                                    price = "50.788",
+                                    image = ""
+                                ),
+                                ProductPresentationModel(
+                                    name = "BreakFast3",
+                                    description = "Amazing BreakFast",
+                                    price = "50.788",
+                                    image = ""
+                                )
                             )
                         )
                     )
                 )
-            )
-        ),
-        cartDetails = CartDetailsPresentationModel(),
-        onEvent = {}
-    )
+            ),
+            cartDetails = CartDetailsPresentationModel(),
+            onEvent = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SearchBarPreview() {
+    FoodCatalogAppTheme {
+        SearchBar(
+            searchQuery = "",
+            onQueryChange = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun ViewOrderButtonPreview() {
+    FoodCatalogAppTheme {
+        ViewOrderButton(
+            cartDetails = CartDetailsPresentationModel(),
+            onButtonClick = {}
+        )
+    }
 }

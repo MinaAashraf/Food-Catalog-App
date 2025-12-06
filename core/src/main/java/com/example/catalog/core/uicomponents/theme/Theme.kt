@@ -1,4 +1,4 @@
-package com.example.foodcatalogapp.ui.theme
+package com.example.catalog.core.uicomponents.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

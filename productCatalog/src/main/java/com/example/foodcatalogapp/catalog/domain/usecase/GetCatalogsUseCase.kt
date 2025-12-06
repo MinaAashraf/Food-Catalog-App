@@ -13,6 +13,10 @@ class GetCatalogsUseCase(
     private val repository: CatalogRepository,
     private val dispatcher: CoroutineDispatcher
 ) {
+    /**
+     * Fetches categories and products concurrently, then combines them into a list of CatalogModel.
+     * Returns a ResultState containing the list of CatalogModel on success, or an error state
+     */
     suspend operator fun invoke(): ResultState<List<CatalogModel>> {
         return withContext(dispatcher) {
             val categoriesDeferred = async { repository.getCategories() }

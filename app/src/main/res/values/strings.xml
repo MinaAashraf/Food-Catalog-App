@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Food Catalog App</string>
+    <string name="catalog_title">Catalog</string>
+    <string name="catalog_label">Catalog</string>
+    <string name="orders_label">Orders</string>
+    <string name="menu_label">Menu</string>
+    <string name="settings_label">settings</string>
+    <string name="no_orders_available_text">There is no orders yet</string>
+    <string name="empty_menu_text">No items available now</string>
+    <string name="empty_settings_text">We are working on it</string>
 </resources>
