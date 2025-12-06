@@ -1,7 +1,7 @@
 package com.example.foodcatalogapp.catalog.data.mapper
 
-import com.example.catalog.core.cache.database.entity.ProductCategoryEntity
-import com.example.catalog.core.cache.database.entity.ProductEntity
+import com.example.catalog.core.data.database.entity.ProductCategoryEntity
+import com.example.catalog.core.data.database.entity.ProductEntity
 import com.example.foodcatalogapp.catalog.data.model.ProductCategoryDTO
 import com.example.foodcatalogapp.catalog.data.model.ProductDTO
 import com.example.foodcatalogapp.catalog.domain.model.ProductCategoryModel

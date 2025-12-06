@@ -1,6 +1,6 @@
 package com.example.foodcatalogapp.catalog.data.repository
 
-import com.example.catalog.core.cache.database.dao.CatalogDAO
+import com.example.catalog.core.data.database.dao.CatalogDAO
 import com.example.catalog.core.common.ErrorCatalog
 import com.example.catalog.core.common.ResultState
 import com.example.foodcatalogapp.catalog.data.api.CatalogService

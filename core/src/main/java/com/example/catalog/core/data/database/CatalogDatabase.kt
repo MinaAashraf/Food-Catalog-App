@@ -1,10 +1,10 @@
-package com.example.catalog.core.cache.database
+package com.example.catalog.core.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.catalog.core.cache.database.dao.CatalogDAO
-import com.example.catalog.core.cache.database.entity.ProductCategoryEntity
-import com.example.catalog.core.cache.database.entity.ProductEntity
+import com.example.catalog.core.data.database.dao.CatalogDAO
+import com.example.catalog.core.data.database.entity.ProductCategoryEntity
+import com.example.catalog.core.data.database.entity.ProductEntity
 
 @Database(
     entities = [ProductCategoryEntity::class, ProductEntity::class],
