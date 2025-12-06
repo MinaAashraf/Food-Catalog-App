@@ -153,11 +153,9 @@ private fun ProductCatalogContent(
                 .height(48.dp),
             shape = RoundedCornerShape(6.dp),
             onClick = {
-
+                onEvent(CatalogUiEvent.OnCartButtonClick)
             }
-        ) {
-            CartDetailsRow(cartDetails)
-        }
+        ) { CartDetailsRow(cartDetails) }
     }
 }
 

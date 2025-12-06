@@ -10,17 +10,17 @@ import com.example.catalog.core.cache.database.entity.ProductEntity
 @Dao
 interface CatalogDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCategories(categories: List<ProductCategoryEntity>)
+    suspend fun insertCategories(categories: List<ProductCategoryEntity>)
 
     @Query("SELECT * FROM product_category")
-    fun getCategories(): List<ProductCategoryEntity>
+    suspend fun getCategories(): List<ProductCategoryEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertProducts(products: List<ProductEntity>)
+    suspend fun insertProducts(products: List<ProductEntity>)
 
     @Query("SELECT * FROM products")
-    fun getProducts(): List<ProductEntity>
+    suspend fun getProducts(): List<ProductEntity>
 
     @Query("SELECT * FROM products WHERE lower(name) like lower(:name)")
-    fun getProductByName(name: String): List<ProductEntity>
+    suspend fun getProductByName(name: String): List<ProductEntity>
 }

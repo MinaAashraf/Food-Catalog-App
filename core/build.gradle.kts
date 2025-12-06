@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.kotlin.compose)
-    id ("kotlinx-serialization")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -32,6 +32,7 @@ android {
 dependencies {
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
+    api("androidx.datastore:datastore-preferences:1.2.0")
     api(platform(libs.koin.bom))
     api(libs.bundles.koin)
     api(platform(libs.ktor.bom))
