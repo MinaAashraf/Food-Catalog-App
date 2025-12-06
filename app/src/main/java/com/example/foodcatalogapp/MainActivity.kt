@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val navController = rememberNavController()
-            var screenTitle by remember { mutableStateOf(Destination.CATALOG.label) }
+            var screenTitle by remember { mutableIntStateOf(Destination.CATALOG.label) }
 
             FoodCatalogAppTheme {
                 Scaffold(
