@@ -7,6 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
+/**
+ * A simple error screen that displays an error message centered on the screen.
+ *
+ * @param message The error message to display.
+ */
 @Composable
 fun ErrorScreen(message: String) {
     Box(

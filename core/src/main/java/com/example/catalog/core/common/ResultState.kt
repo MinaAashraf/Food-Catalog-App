@@ -2,6 +2,11 @@ package com.example.catalog.core.common
 
 import kotlinx.serialization.Serializable
 
+/**
+ * A generic sealed class to represent the result state of an operation, which can be either a success or an error.
+ *
+ * @param T The type of the successful result.
+ */
 @Serializable
 sealed class ResultState<out T : Any> {
     @Serializable

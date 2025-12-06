@@ -19,6 +19,13 @@ import androidx.compose.ui.unit.dp
 import com.example.catalog.core.R
 import com.example.catalog.core.uicomponents.theme.FoodCatalogAppTheme
 
+/**
+ * App bar composable with a title and an optional back button.
+ * @param modifier Modifier to be applied to the app bar.
+ * @param title Title text to be displayed in the app bar.
+ * @param showBackButton Boolean flag to show or hide the back button. Default is true.
+ * @param onBackClicked Lambda function to be invoked when the back button is clicked.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(

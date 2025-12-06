@@ -18,6 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.catalog.core.R
 
+/**
+ * A composable function that displays a loading screen with a circular progress indicator
+ * and a loading title.
+ */
 @Composable
 fun LoadingScreen() {
     Box(
