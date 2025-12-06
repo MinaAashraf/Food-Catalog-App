@@ -1,11 +1,11 @@
-package com.example.catalog.core.cache.database.dao
+package com.example.catalog.core.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.catalog.core.cache.database.entity.ProductCategoryEntity
-import com.example.catalog.core.cache.database.entity.ProductEntity
+import com.example.catalog.core.data.database.entity.ProductCategoryEntity
+import com.example.catalog.core.data.database.entity.ProductEntity
 
 @Dao
 interface CatalogDAO {

@@ -1,8 +1,8 @@
 package com.example.foodcatalogapp
 
 import android.app.Application
-import com.example.catalog.core.cache.database.di.databaseModule
-import com.example.catalog.core.network.networkModule
+import com.example.catalog.core.data.database.di.databaseModule
+import com.example.catalog.core.data.network.di.networkModule
 import com.example.foodcatalogapp.catalog.di.catalogDataModule
 import com.example.foodcatalogapp.catalog.di.catalogDomainModule
 import com.example.foodcatalogapp.catalog.di.catalogPresentationModule
