@@ -147,15 +147,13 @@ private fun ProductCatalogContent(
                 }
             )
         }
-        Button(
-            modifier = Modifier
-                .padding(16.dp)
-                .height(48.dp),
-            shape = RoundedCornerShape(6.dp),
-            onClick = {
+
+        ViewOrderButton(
+            cartDetails = cartDetails,
+            onButtonClick = {
                 onEvent(CatalogUiEvent.OnCartButtonClick)
             }
-        ) { CartDetailsRow(cartDetails) }
+        )
     }
 }
 
@@ -258,7 +256,7 @@ private fun ProductElement(
             AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height((screenHeight * 0.25).dp),
+                    .height((screenHeight * 0.15).dp),
                 model = product.image,
                 error = painterResource(R.drawable.place_holder),
                 contentScale = ContentScale.Crop,
@@ -266,8 +264,7 @@ private fun ProductElement(
                 contentDescription = null
             )
             Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(16.dp)
             ) {
                 Text(product.name)
                 product.description?.let {
@@ -277,10 +274,24 @@ private fun ProductElement(
                         maxLines = 1
                     )
                 }
-                Text("${product.price} ${stringResource(R.string.unit)}")
+                Text(text = "${product.price} ${stringResource(R.string.unit)}")
             }
         }
     }
+}
+
+@Composable
+private fun ViewOrderButton(
+    cartDetails: CartDetailsPresentationModel,
+    onButtonClick: () -> Unit
+) {
+    Button(
+        modifier = Modifier
+            .padding(16.dp)
+            .height(48.dp),
+        shape = RoundedCornerShape(6.dp),
+        onClick = onButtonClick
+    ) { CartDetailsRow(cartDetails) }
 }
 
 @Composable
