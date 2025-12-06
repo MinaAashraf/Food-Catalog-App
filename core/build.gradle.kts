@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.kotlin.compose)
     id ("kotlinx-serialization")
 }
 
@@ -35,6 +36,8 @@ dependencies {
     api(libs.bundles.koin)
     api(platform(libs.ktor.bom))
     api(libs.bundles.ktor)
+    api(platform(libs.androidx.compose.bom))
+    api(libs.bundles.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

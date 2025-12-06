@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.example.catalog.R
+import com.example.catalog.core.uicomponents.composables.ToolBar
+import com.example.catalog.core.uicomponents.theme.FoodCatalogAppTheme
 import com.example.foodcatalogapp.catalog.presentation.ProductCatalogScreen
-import com.example.foodcatalogapp.ui.theme.FoodCatalogAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +24,13 @@ class MainActivity : ComponentActivity() {
             FoodCatalogAppTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    containerColor = Color.White
+                    containerColor = Color.White,
+                    topBar = {
+                        ToolBar(
+                            title = stringResource(R.string.catalog_title),
+                            onBackClicked = { finish() }
+                        )
+                    }
                 ) { innerPadding ->
                     Box(Modifier.padding(innerPadding)) {
                         ProductCatalogScreen()

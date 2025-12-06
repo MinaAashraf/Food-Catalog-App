@@ -1,4 +1,4 @@
-package com.example.foodcatalogapp.ui.theme
+package com.example.catalog.core.uicomponents.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
