@@ -4,6 +4,6 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class CartDetailsPresentationModel(
-    val productIds: Set<Int> = emptySet(),
+    val productIds: List<Int> = emptyList(),
     val totalPrice: String = "0"
 )

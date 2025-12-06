@@ -7,15 +7,15 @@ data class CatalogModel(
 )
 
 data class ProductCategoryModel(
-    val id: Int? = null,
+    val id: Int,
     val name: String? = null
 )
 
 data class ProductModel(
-    val id: Int? = null,
+    val id: Int,
     val name: String? = null,
     val description: String? = null,
     val image: String? = null,
     val price: Double? = null,
-    val categoryId: Int? = null
+    val categoryId: Int
 )

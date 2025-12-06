@@ -6,9 +6,14 @@ import com.example.catalog.core.common.ErrorCatalog
 import com.example.catalog.core.common.onError
 import com.example.catalog.core.common.onSuccess
 import com.example.foodcatalogapp.catalog.R
+import com.example.foodcatalogapp.catalog.domain.model.CartDetailsModel
+import com.example.foodcatalogapp.catalog.domain.usecase.AddToCartUseCase
+import com.example.foodcatalogapp.catalog.domain.usecase.ClearCartUseCase
 import com.example.foodcatalogapp.catalog.domain.usecase.FilterProductsByNameUseCase
 import com.example.foodcatalogapp.catalog.domain.usecase.GetCatalogsUseCase
+import com.example.foodcatalogapp.catalog.domain.usecase.ReadCartDetailsUseCase
 import com.example.foodcatalogapp.catalog.presentation.event.CatalogUiEvent
+import com.example.foodcatalogapp.catalog.presentation.mapper.toCartPresentationModel
 import com.example.foodcatalogapp.catalog.presentation.mapper.toCatalogPresentationModel
 import com.example.foodcatalogapp.catalog.presentation.model.CartDetailsPresentationModel
 import com.example.foodcatalogapp.catalog.presentation.state.CatalogResult
@@ -16,26 +21,31 @@ import com.example.foodcatalogapp.catalog.presentation.state.CatalogUiState
 import com.example.foodcatalogapp.catalog.presentation.utils.toTwoDigitDecimals
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 class CatalogViewModel(
     private val getCatalogsUseCase: GetCatalogsUseCase,
-    private val filterProductsByNameUseCase: FilterProductsByNameUseCase
+    private val filterProductsByNameUseCase: FilterProductsByNameUseCase,
+    private val readCartDetailsUseCase: ReadCartDetailsUseCase,
+    private val addToCartUseCase: AddToCartUseCase,
+    private val clearCartUseCase: ClearCartUseCase
 ) : ViewModel() {
 
     private val _catalogUiState = MutableStateFlow(CatalogUiState())
     val catalogUiState = _catalogUiState.asStateFlow()
 
-    private val _cartDetailsState = MutableStateFlow(CartDetailsPresentationModel())
-    val cartDetailsState = _cartDetailsState.asStateFlow()
+    var cartDetailsState: StateFlow<CartDetailsPresentationModel> = readCartDetails()
 
     init {
         getCatalogs()
@@ -61,6 +71,10 @@ class CatalogViewModel(
                     productId = event.productId,
                     productPrice = event.productPrice
                 )
+            }
+
+            is CatalogUiEvent.OnCartButtonClick -> {
+                clearCart()
             }
         }
     }
@@ -118,14 +132,38 @@ class CatalogViewModel(
         }
     }
 
+    private fun readCartDetails(): StateFlow<CartDetailsPresentationModel> {
+        return readCartDetailsUseCase()
+            .map { cartDetailsModel ->
+                cartDetailsModel.toCartPresentationModel()
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = CartDetailsPresentationModel()
+            )
+    }
+
     private fun addToCart(productId: Int, productPrice: String) {
-        if (productId !in _cartDetailsState.value.productIds) {
-            _cartDetailsState.update {
-                it.copy(
-                    productIds = it.productIds + productId,
-                    totalPrice = sumPrices(it.totalPrice, productPrice)
-                )
+        cartDetailsState.value.let { currentCart ->
+            if (productId !in currentCart.productIds) {
+                viewModelScope.launch {
+                    addToCartUseCase(
+                        CartDetailsModel(
+                            productIds = currentCart.productIds + productId,
+                            totalPrice = sumPrices(
+                                currentCart.totalPrice,
+                                productPrice
+                            )
+                        )
+                    )
+                }
             }
+        }
+    }
+
+    private fun clearCart() {
+        viewModelScope.launch {
+            clearCartUseCase
         }
     }
 

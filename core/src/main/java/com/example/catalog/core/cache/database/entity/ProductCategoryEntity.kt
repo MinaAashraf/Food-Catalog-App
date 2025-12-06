@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity (tableName = "product_category")
 data class ProductCategoryEntity(
-    @PrimaryKey val id: Int? = null,
+    @PrimaryKey val id: Int,
     val name: String? = null
 )

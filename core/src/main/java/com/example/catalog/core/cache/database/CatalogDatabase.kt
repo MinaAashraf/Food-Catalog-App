@@ -11,7 +11,7 @@ import com.example.catalog.core.cache.database.entity.ProductEntity
     version = 1,
     exportSchema = false
 )
-abstract class CatalogDatabase: RoomDatabase() {
+abstract class CatalogDatabase : RoomDatabase() {
     abstract fun CatalogDAO(): CatalogDAO
 }
 
