@@ -23,6 +23,6 @@ A modern Android application for browsing, searching, and managing food product 
 - Coroutines, Flow, Modular Architecture
 - Modular Gradle setup (KTS)
 
----
-*Generated README. Update with more details as needed.*
+## Screenshots
 
+<img src="https://github.com/user-attachments/assets/9d94ffcb-6fb1-40f4-a1ce-b1f388a2e730" alt="App Screenshot" width="300"/>
